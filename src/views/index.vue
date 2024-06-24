@@ -1,55 +1,88 @@
 <template>
-  <div class="dark:text-slate-400 dark:bg-slate-900">
-    <Header />
-    <main class="max-w-5xl px-4 mx-auto pb-22 sm:px-6 md:px-8 xl:px-12 xl:max-w-6xl">
-      <div class="pt-8 pb-7 sm:pb-8 sm:text-center">
-        <h1 class="relative mb-4 text-4xl tracking-tight font-blimone sm:text-5xl lg:text-6xl text-slate-900 dark:text-slate-200">
-          {{ appStore.h1 }}
-        </h1>
-        <p class="text-2xl text-slate-800 dark:text-slate-400">最新Vue3技术流，超全配置，大厂协作规范，大佬必备神器</p>
-      </div>
-    </main>
-    <article class="space-y-20 sm:space-y-32 md:space-y-40 lg:space-y-44">
-      <ul class="flex flex-wrap items-center justify-center py-6 sm:px-20 lg:px-36 xl:px-20 sm:justify-start lg:justify-start">
-        <li v-for="(item, index) in data" :key="index * 1.1" class="px-3 pt-4 md:px-4 sm:pt-5 md:pb-8">
-          <figure class="flex-none shadow-lg rounded-xl w-80 md:w-100">
-            <blockquote
-              class="px-6 py-8 text-lg font-semibold leading-8 bg-white rounded-t-xl md:p-5 md:text-base md:leading-8 text-slate-700 dark:text-slate-300 dark:bg-slate-800 dark:highlight-white/5"
-            >
-              <SvgIcon name="svg-marks" />
-              <p v-html="item.content"></p>
-            </blockquote>
-            <figcaption :class="`flex items-center p-6 space-x-4 leading-6 text-white md:px-10 md:py-6 rounded-b-xl ${item.color}`">
-              <div class="flex items-center justify-center flex-none bg-white rounded-full w-14 h-14">
-                <img :src="item.avatar" class="w-12 h-12 rounded-full" loading="lazy" />
-              </div>
-              <div class="flex-auto">
-                <div class="text-base font-semibold dark:text-slate-200">
-                  {{ item.title }}
-                  <p>{{ item.author }}</p>
-                </div>
-              </div>
-              <cite class="flex">
-                <a :href="item.github" class="transition-opacity duration-200 opacity-50 hover:opacity-75">
-                  <SvgIcon name="svg-github" />
-                </a>
-              </cite>
-            </figcaption>
-          </figure>
-        </li>
-      </ul>
-    </article>
+  <div class="common-layout">
+    <div class="header-sys">
+      <div class="header-sys-msg"
+        ><el-icon color="#fff" :size="20"><Bell /></el-icon
+      ></div>
+      <div class="header-sys-my"
+        ><el-icon color="#fff" :size="20"><User /></el-icon
+      ></div>
+      <div class="header-sys-lang">cn</div>
+    </div>
+    <div class="main">
+      <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" :ellipsis="false" @select="handleSelect" router>
+        <el-menu-item index="0">
+          <img style="width: 80px" src="../assets/images/byh-logo.png" alt="宝远航科技" />
+        </el-menu-item>
+        <div class="flex-grow"></div>
+        <el-menu-item index="index-home" route="/index-home">首页</el-menu-item>
+        <el-menu-item index="index-flight" route="/index-flight">航线航班</el-menu-item>
+        <el-menu-item index="index-business" route="/index-business">招商会展</el-menu-item>
+        <el-menu-item index="/index-regulations">政策法规</el-menu-item>
+        <el-menu-item index="/index-standards">标准规范</el-menu-item>
+        <el-menu-item index="/index-reports">专家报告</el-menu-item>
+        <el-menu-item index="/index-research">数据研究</el-menu-item>
+        <el-menu-item index="/index-feedback">意见反馈</el-menu-item>
+      </el-menu>
+      <router-view />
+    </div>
+    <div class="footer">
+      <div class="footer-copyright">2024©xxx</div>
+      <div class="footer-privatePolicy">隐私政策</div>
+      <div class="footer-beian">鄂备xxxxx</div>
+      <div class="footer-contact">联系电话:xxx-xxxxxxxx</div>
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
-  import SvgIcon from '@/components/SvgIcon/index.vue';
-  import { useAppStore } from '@/store/modules/app';
-  import { framework } from './data';
-  import Header from '@/components/Header/index.vue';
+  import { ref } from 'vue';
 
-  const appStore = useAppStore();
-  const data = ref(framework);
+  const activeIndex = ref('index-home');
+  const handleSelect = (key: string, keyPath: string[]) => {
+    console.log(key, keyPath);
+  };
 </script>
 
-<style lang="less" scoped></style>
+<style lang="less" scoped>
+  .header-sys {
+    height: 30px;
+    background-color: rgb(16 20 62);
+    //background-color: #fff;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-end;
+    padding: 0 20%;
+    gap: 10px;
+  }
+  //.header-sys-my .header-sys-msg .header-sys-lang {
+  //  margin-left: 10px;
+  //}
+  .header-sys-lang {
+    color: #fff;
+  }
+
+  .el-menu-demo {
+    margin: 0 20%;
+  }
+
+  .footer {
+    height: 80px;
+    padding: 0 20%;
+    background-color: rgb(28 34 88);
+    display: flex;
+    flex-direction: row;
+    color: rgb(142 145 172);
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .footer > * {
+    color: rgb(142 145 172);
+  }
+
+  .flex-grow {
+    flex-grow: 1;
+  }
+</style>

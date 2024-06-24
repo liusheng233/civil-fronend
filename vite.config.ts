@@ -3,6 +3,9 @@ import { createVitePlugins } from './build/vite/plugins';
 import { fileURLToPath, URL } from 'node:url';
 import proxy from './build/vite/proxy';
 import { wrapperEnv } from './build/utils';
+import AutoImport from 'unplugin-auto-import/vite';
+import Components from 'unplugin-vue-components/vite';
+import { ElementPlusResolver } from 'unplugin-vue-components/resolvers';
 
 // https://vitejs.dev/config/
 export default ({ command, mode }: ConfigEnv): UserConfig => {
@@ -19,7 +22,15 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
       },
     },
     // plugins
-    plugins: createVitePlugins(viteEnv, isBuild),
+    plugins: [
+      createVitePlugins(viteEnv, isBuild),
+      AutoImport({
+        resolvers: [ElementPlusResolver()],
+      }),
+      Components({
+        resolvers: [ElementPlusResolver()],
+      }),
+    ],
 
     // css
     css: {},

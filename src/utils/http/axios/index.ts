@@ -12,6 +12,9 @@ const service: AxiosInstance = axios.create({
 // axios实例拦截请求
 service.interceptors.request.use(
   (config: InternalAxiosRequestConfig) => {
+    config.headers.set('Access-Control-Allow-Origin', 'http://localhost:8081');
+    config.headers.set('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+    config.headers.set('Access-Control-Allow-Headers', 'Content-Type, X-Custom-Header');
     const token = getToken();
     if (token) {
       config.headers.authorization = `${token}`;
@@ -48,10 +51,14 @@ const request = <T = any>(config: AxiosRequestConfig): Promise<T> => {
   const conf = config;
   return new Promise((resolve) => {
     service.request<any, AxiosResponse<IResponse>>(conf).then((res: AxiosResponse<IResponse>) => {
-      const {
-        data: { result },
-      } = res;
-      resolve(result as T);
+      if (res && res.data) {
+        const {
+          data: { data },
+        } = res;
+        resolve(data as T);
+      } else {
+        resolve(res as T);
+      }
     });
   });
 };
