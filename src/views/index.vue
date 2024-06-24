@@ -27,7 +27,7 @@
       <router-view />
     </div>
     <div class="footer">
-      <div class="footer-copyright">2024©xxx</div>
+      <div class="footer-copyright">2024©xxxx</div>
       <div class="footer-privatePolicy">隐私政策</div>
       <div class="footer-beian">鄂备xxxxx</div>
       <div class="footer-contact">联系电话:xxx-xxxxxxxx</div>
